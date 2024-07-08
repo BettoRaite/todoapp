@@ -1,10 +1,9 @@
 import styles from "./todo.module.css";
-import { TodoItem } from "../../lib/models/todoItem";
+import { TodoItem } from "../../lib/types/todoItem";
 import { useState, ChangeEvent } from "react";
 
 interface TodoProps {
-	handleDelete: (id: string, isDone: boolean) => void;
-	handleEdit: (id: string) => void;
+	handleDelete: (id: string) => void;
 	handleSave: (id: string, title: string) => void;
 	handleDiscardChanges: (id: string) => void;
 	handleDone: (id: string) => void;
@@ -14,27 +13,24 @@ interface TodoProps {
 
 function Todo({
 	handleDelete,
-	handleEdit,
 	handleSave,
-	handleDiscardChanges,
 	handleDone,
 	handleUndone,
-	todoItem: { id, title, isEdit, isDone },
+	todoItem: { id, title, isDone },
 }: TodoProps) {
 	const [input, setInput] = useState(title);
+	const [isEditing, setIsEditing] = useState(false);
 
 	function handleDeleteClick() {
-		handleDelete(id, isDone);
+		handleDelete(id);
 	}
 	function handleEditClick() {
-		handleEdit(id);
+		setInput(title);
+		setIsEditing(!isEditing);
 	}
 	function handleSaveClick() {
+		setIsEditing(false);
 		handleSave(id, input);
-	}
-	function handleDiscardClick() {
-		setInput(title);
-		handleDiscardChanges(id);
 	}
 	function handleChange(e: ChangeEvent<HTMLInputElement>) {
 		setInput(e.target.value);
@@ -52,30 +48,32 @@ function Todo({
 				checked={isDone}
 				onChange={isDone ? handleUndoneClick : handleDoneClick}
 			/>
-			{isEdit ? (
+			{isEditing ? (
 				<input value={input} onChange={handleChange} />
 			) : isDone ? (
-				<h3>
+				<h3 className={styles.title}>
 					<del>{title}</del>
 				</h3>
 			) : (
-				<h3>{title}</h3>
+				<h3 className={styles.title}>{title}</h3>
 			)}
-			{isDone === false &&
-				(isEdit ? (
-					<div>
-						<button onClick={handleSaveClick}>Save</button>
-						<button onClick={handleDiscardClick}>Discard</button>
-					</div>
-				) : (
-					<button type="button" onClick={handleEditClick}>
-						edit
-					</button>
-				))}
+			<div className={styles.buttonsWrapper}>
+				{isDone === false &&
+					(isEditing ? (
+						<div>
+							<button onClick={handleSaveClick}>Save</button>
+							<button onClick={handleEditClick}>Discard</button>
+						</div>
+					) : (
+						<button type="button" onClick={handleEditClick}>
+							edit
+						</button>
+					))}
 
-			<button type="button" onClick={handleDeleteClick}>
-				delete
-			</button>
+				<button type="button" onClick={handleDeleteClick}>
+					delete
+				</button>
+			</div>
 		</div>
 	);
 }

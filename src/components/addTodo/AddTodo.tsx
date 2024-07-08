@@ -1,21 +1,23 @@
 import styles from "./addTodo.module.css";
-import { useState, ChangeEvent } from "react";
-
+import { useState, ChangeEvent, FormEvent } from "react";
 interface AddTodoProps {
 	handleAdd: (title: string) => void;
 }
 
 function AddTodo({ handleAdd }: AddTodoProps) {
 	const [title, setTitle] = useState("");
+
 	function handleChange(e: ChangeEvent<HTMLInputElement>) {
 		setTitle(e.target.value);
 	}
-	function handleClick() {
+	function handleSubmit(e: FormEvent<HTMLFormElement>) {
+		e.preventDefault();
 		setTitle("");
 		handleAdd(title);
 	}
+
 	return (
-		<>
+		<form className={styles.addTodoForm} onSubmit={handleSubmit}>
 			<input
 				name="add todo"
 				className={styles.input}
@@ -24,11 +26,12 @@ function AddTodo({ handleAdd }: AddTodoProps) {
 				onChange={handleChange}
 				maxLength={50}
 				placeholder="Todo title"
+				required
 			/>
-			<button type="button" onClick={handleClick}>
+			<button className={styles.addTodoButton} type="submit">
 				Add
 			</button>
-		</>
+		</form>
 	);
 }
 

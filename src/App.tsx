@@ -1,9 +1,17 @@
-import "./App.css";
-import TodosList from "./components/todoList/TodoList";
+import styles from "./app.module.css";
+import TodoList from "./components/todoList/TodoList";
+
+window.onstorage = (event) => {
+	// can also use window.addEventListener('storage', event => {
+	console.log(event);
+};
+
 function App() {
 	return (
 		<>
-			<TodosList />
+			<div className={styles.todoListWrapper}>
+				<TodoList />
+			</div>
 		</>
 	);
 }
