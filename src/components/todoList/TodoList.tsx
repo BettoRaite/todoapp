@@ -1,87 +1,50 @@
 import styles from "./todoList.module.css";
-import { useState, useReducer } from "react";
-import { TodoItem } from "../../lib/types/todoItem";
-import { v4 as uuidv4 } from "uuid";
+import { useReducer } from "react";
 import Todo from "../todo/Todo";
 import AddTodo from "../addTodo/AddTodo";
-import { localStorageManager } from "../../lib/todos-manager";
+import { localStorageManager } from "../../lib/local-storage-manager";
+import { todosReducer } from "../../lib/reducer/todosReducer";
 
 function TodoList() {
-	const [todos, setTodos] = useState<TodoItem[]>(
+	const [todos, dispatch] = useReducer(
+		todosReducer,
 		localStorageManager.storedTodos,
 	);
-	function handleAdd(title: string) {
-		const todoItem: TodoItem = {
-			id: uuidv4(),
-			isDone: false,
-			title,
-		};
-		const nextTodos = [...todos, todoItem];
-		setTodos(nextTodos);
-		localStorageManager.updateTodos(nextTodos);
+
+	function handleAdd(content: string) {
+		dispatch({
+			type: "create",
+			content,
+		});
 	}
 
 	function handleDelete(id: string) {
-		const nextTodos = todos.filter((todo) => todo.id !== id);
-		setTodos(nextTodos);
-		localStorageManager.updateTodos(nextTodos);
+		dispatch({
+			type: "delete",
+			id,
+		});
 	}
 
-	function handleSave(id: string, title: string) {
-		const nextTodos = todos.map((todo) => {
-			if (todo.id === id) {
-				return {
-					...todo,
-					title,
-					isEdit: false,
-				};
-			}
-			return todo;
+	function handleChange(id: string, content: string) {
+		dispatch({
+			type: "change",
+			content,
+			id,
 		});
-
-		setTodos(nextTodos);
-		localStorageManager.updateTodos(nextTodos);
-	}
-
-	function handleDiscardChanges(id: string) {
-		const nextTodos = todos.map((todo) => {
-			if (todo.id === id) {
-				return {
-					...todo,
-					isEdit: false,
-				};
-			}
-			return todo;
-		});
-		setTodos(nextTodos);
 	}
 
 	function handleDone(id: string) {
-		const nextTodos = todos.map((todo) => {
-			if (todo.id === id) {
-				return {
-					...todo,
-					isDone: true,
-				};
-			}
-			return todo;
+		dispatch({
+			type: "done",
+			id,
 		});
-		setTodos(nextTodos);
-		localStorageManager.updateTodos(nextTodos);
 	}
 
 	function handleUndone(id: string) {
-		const nextTodos = todos.map((todo) => {
-			if (todo.id === id) {
-				return {
-					...todo,
-					isDone: false,
-				};
-			}
-			return todo;
+		dispatch({
+			type: "undone",
+			id,
 		});
-		setTodos(nextTodos);
-		localStorageManager.updateTodos(nextTodos);
 	}
 
 	return (
@@ -95,10 +58,9 @@ function TodoList() {
 								key={todoItem.id}
 								todoItem={todoItem}
 								handleDelete={handleDelete}
-								handleSave={handleSave}
-								handleDiscardChanges={handleDiscardChanges}
 								handleDone={handleDone}
 								handleUndone={handleUndone}
+								handleChange={handleChange}
 							/>
 						);
 					}
@@ -113,10 +75,9 @@ function TodoList() {
 								key={todoItem.id}
 								todoItem={todoItem}
 								handleDelete={handleDelete}
-								handleSave={handleSave}
-								handleDiscardChanges={handleDiscardChanges}
 								handleDone={handleDone}
 								handleUndone={handleUndone}
+								handleChange={handleChange}
 							/>
 						);
 					}
