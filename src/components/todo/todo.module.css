@@ -3,10 +3,24 @@
   justify-content: space-between;
   align-items: center;
 }
-.title {
+.todoContent {
+  font-size: 1rem;
+  padding-left: 20px;
+  width: 300px;
   color: rgba(0, 0, 0, 0.8);
 }
 .buttonsWrapper {
   display: flex;
   gap: var(--buttons-gap);
+}
+.todoContentInput {
+  font-size: 1rem;
+  background-color: transparent;
+  border: none;
+  padding: 10px;
+  margin-left: var(--todo-content-input-margin-sides);
+  margin-right: var(--todo-content-input-margin-sides);
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
 }

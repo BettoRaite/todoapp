@@ -3,25 +3,20 @@ import { TodoItem } from "../../lib/types/todoItem";
 import { useState, ChangeEvent } from "react";
 
 interface TodoProps {
-	handleDelete: (id: string) => void;
-	handleChange: (id: string, content: string) => void;
-	handleDone: (id: string) => void;
-	handleUndone: (id: string) => void;
+	handlers: {
+		onDelete: (id: string) => void;
+		onChange: (todoItem: TodoItem) => void;
+	};
 	todoItem: TodoItem;
 }
 
-function Todo({
-	handleDelete,
-	handleDone,
-	handleUndone,
-	handleChange,
-	todoItem: { id, content, isDone },
-}: TodoProps) {
+function Todo({ handlers: { onDelete, onChange }, todoItem }: TodoProps) {
+	const { id, content, isDone } = todoItem;
 	const [input, setInput] = useState(content);
 	const [isEditing, setIsEditing] = useState(false);
 
 	function handleDeleteClick() {
-		handleDelete(id);
+		onDelete(id);
 	}
 	function handleEditClick() {
 		setInput(content);
@@ -29,17 +24,53 @@ function Todo({
 	}
 	function handleSaveClick() {
 		setIsEditing(false);
-		handleChange(id, content);
+		onChange({ ...todoItem, content: input });
 	}
 	function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
 		setInput(e.target.value);
 	}
 	function handleDoneClick() {
-		handleDone(id);
+		onChange({
+			...todoItem,
+			isDone: true,
+		});
 	}
 	function handleUndoneClick() {
-		handleUndone(id);
+		onChange({ ...todoItem, isDone: false });
 	}
+
+	let editButtons = <></>;
+	let todoContent = (
+		<h3 className={styles.title}>
+			<del>{content}</del>
+		</h3>
+	);
+
+	if (isDone === false) {
+		if (isEditing) {
+			todoContent = (
+				<input
+					className={styles.todoContentInput}
+					value={input}
+					onChange={handleInputChange}
+				/>
+			);
+			editButtons = (
+				<div>
+					<button onClick={handleSaveClick}>Save</button>
+					<button onClick={handleEditClick}>Discard</button>
+				</div>
+			);
+		} else {
+			todoContent = <h3 className={styles.todoContent}>{content}</h3>;
+			editButtons = (
+				<button type="button" onClick={handleEditClick}>
+					edit
+				</button>
+			);
+		}
+	}
+
 	return (
 		<div className={styles.layout}>
 			<input
@@ -47,28 +78,9 @@ function Todo({
 				checked={isDone}
 				onChange={isDone ? handleUndoneClick : handleDoneClick}
 			/>
-			{isEditing ? (
-				<input value={input} onChange={handleInputChange} />
-			) : isDone ? (
-				<h3 className={styles.title}>
-					<del>{content}</del>
-				</h3>
-			) : (
-				<h3 className={styles.title}>{content}</h3>
-			)}
+			{todoContent}
 			<div className={styles.buttonsWrapper}>
-				{isDone === false &&
-					(isEditing ? (
-						<div>
-							<button onClick={handleSaveClick}>Save</button>
-							<button onClick={handleEditClick}>Discard</button>
-						</div>
-					) : (
-						<button type="button" onClick={handleEditClick}>
-							edit
-						</button>
-					))}
-
+				{editButtons}
 				<button type="button" onClick={handleDeleteClick}>
 					delete
 				</button>

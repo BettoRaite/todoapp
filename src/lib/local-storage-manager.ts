@@ -1,33 +1,25 @@
 import { TodoItem } from "./types/todoItem";
 
 const TODOS_KEY = "LOCALSTORAGE_TODOS_KEY";
-const COMPLETED_TODOS_KEY = "LOCALSTORAGE_COMPLETED_TODOS_KEY";
 
 export class LocalStorageManager {
 	storedTodos: TodoItem[] = [];
-	storedCompletedTodos: TodoItem[] = [];
 	constructor() {
 		try {
 			const todos = JSON.parse(localStorage.getItem(TODOS_KEY) ?? "[]");
-			const completedTodos = JSON.parse(
-				localStorage.getItem(COMPLETED_TODOS_KEY) ?? "[]",
-			);
-			if (Array.isArray(todos) && Array.isArray(completedTodos)) {
+
+			if (Array.isArray(todos)) {
 				this.storedTodos = todos;
-				this.storedCompletedTodos = completedTodos;
 				console.log("Successful init!");
 				return;
 			}
-			throw new Error("Invalid type for todos/completedTodos");
+			throw new Error("Invalid type of todos, expected an array.");
 		} catch (error) {
 			alert(error);
 		}
 	}
 	updateTodos(todos: TodoItem[]) {
 		localStorage.setItem(TODOS_KEY, JSON.stringify(todos));
-	}
-	updateCompletedTodos(completedTodos: TodoItem[]) {
-		localStorage.setItem(COMPLETED_TODOS_KEY, JSON.stringify(completedTodos));
 	}
 }
 

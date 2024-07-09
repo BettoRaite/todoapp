@@ -1,11 +1,13 @@
 .addTodoForm {
   display: flex;
-  /* align-items: center; */
+  justify-content: space-between;
   gap: var(--add-todo-form-items-gap);
   height: var(--add-todo-form-height);
   margin-bottom: 40px;
 }
 .input {
+  flex: 1;
+  max-width: 300px;
   padding: 15px;
   font-size: 1.2rem;
   border: none;

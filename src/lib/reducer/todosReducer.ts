@@ -8,87 +8,63 @@ export interface Action extends Partial<TodoItem> {
 
 export function todosReducer(todos: TodoItem[], action: Action) {
 	let nextTodos: TodoItem[] = [];
+
 	try {
 		switch (action.type) {
 			case "create": {
 				if (typeof action.content !== "string") {
-					throw new TypeError(
-						"Failed to create todo\nInvalid type of todo content.",
-					);
+					throw new TypeError("todo content is undefined.");
 				}
-
-				const todoItem: TodoItem = {
-					id: uuidv4(),
-					isDone: false,
-					content: action.content,
-				};
-				nextTodos = [...todos, todoItem];
-
-				return nextTodos;
-			}
-			case "delete": {
-				nextTodos = todos.filter((todo) => todo.id !== action.id);
-
+				nextTodos = [
+					...todos,
+					{
+						id: uuidv4(),
+						content: action.content,
+						isDone: false,
+					},
+				];
 				return nextTodos;
 			}
 			case "change": {
 				if (typeof action.content !== "string") {
-					throw new TypeError(
-						"Failed to change todo\nInvalid type of todo content.",
-					);
+					throw new TypeError("todo content is undefined.");
 				}
-
+				if (typeof action.id !== "string") {
+					throw new TypeError("todo id is undefined.");
+				}
+				if (typeof action.isDone !== "boolean") {
+					throw new TypeError("todo isDone is undefined.");
+				}
 				nextTodos = todos.map((todo) => {
 					if (todo.id === action.id) {
 						return {
-							...todo,
-							// even though I check for action.content being string ts still complains.
+							id: action.id ?? "",
 							content: action.content ?? "",
-						};
-					}
-
-					return todo;
-				});
-
-				return nextTodos;
-			}
-			case "done": {
-				nextTodos = todos.map((todo) => {
-					if (todo.id === action.id) {
-						return {
-							...todo,
-							isDone: true,
+							isDone: action.isDone ?? false,
 						};
 					}
 					return todo;
 				});
-
 				return nextTodos;
 			}
-			case "undone": {
-				nextTodos = todos.map((todo) => {
-					if (todo.id === action.id) {
-						return {
-							...todo,
-							isDone: false,
-						};
-					}
-					return todo;
-				});
-
+			case "delete": {
+				if (typeof action.id !== "string") {
+					throw new TypeError("todo id is undefined.");
+				}
+				nextTodos = todos.filter((todo) => todo.id !== action.id);
 				return nextTodos;
 			}
-			default: {
-				throw new TypeError("Invalid type of action.");
-			}
+			default:
+				throw new TypeError("Undefined type of action.");
 		}
 	} catch (error) {
 		console.error(error);
-		return todos;
+		return nextTodos;
 	} finally {
 		localStorageManager.updateTodos(nextTodos);
 	}
 }
+
 // NOTE: Remove some time later.
 // const initialState: TodoItem[] = [];
 
