@@ -1,19 +1,18 @@
-import { TodoItem } from "../types/todoItem";
 import { v4 as uuidv4 } from "uuid";
-import { localStorageManager } from "../local-storage-manager";
-
-export interface Action extends Partial<TodoItem> {
-	type: "create" | "delete" | "change" | "done" | "undone";
+import { TodoItem } from "./types.ts";
+import { saveTodos } from "./local-storage.ts";
+export interface TodoAction extends Partial<TodoItem> {
+	type: "add_todo" | "delete_todo" | "change_todo";
 }
 
-export function todosReducer(todos: TodoItem[], action: Action) {
+export function todosReducer(todos: TodoItem[], action: TodoAction) {
 	let nextTodos: TodoItem[] = [];
-
+	let isError = false;
 	try {
 		switch (action.type) {
-			case "create": {
+			case "add_todo": {
 				if (typeof action.content !== "string") {
-					throw new TypeError("todo content is undefined.");
+					throw new TypeError("action.content is not a string.");
 				}
 				nextTodos = [
 					...todos,
@@ -25,43 +24,47 @@ export function todosReducer(todos: TodoItem[], action: Action) {
 				];
 				return nextTodos;
 			}
-			case "change": {
+			case "change_todo": {
 				if (typeof action.content !== "string") {
-					throw new TypeError("todo content is undefined.");
+					throw new TypeError("action.content is not a string.");
 				}
 				if (typeof action.id !== "string") {
-					throw new TypeError("todo id is undefined.");
+					throw new TypeError("action.id is not a string.");
 				}
 				if (typeof action.isDone !== "boolean") {
-					throw new TypeError("todo isDone is undefined.");
+					throw new TypeError("action.id is not a bool.");
 				}
 				nextTodos = todos.map((todo) => {
 					if (todo.id === action.id) {
 						return {
-							id: action.id ?? "",
-							content: action.content ?? "",
-							isDone: action.isDone ?? false,
+							...todo,
+							...action,
 						};
 					}
 					return todo;
 				});
 				return nextTodos;
 			}
-			case "delete": {
+			case "delete_todo": {
 				if (typeof action.id !== "string") {
-					throw new TypeError("todo id is undefined.");
+					throw new TypeError("action.id is not a string.");
 				}
 				nextTodos = todos.filter((todo) => todo.id !== action.id);
 				return nextTodos;
 			}
 			default:
-				throw new TypeError("Undefined type of action.");
+				throw new Error("Invalid type of action.");
 		}
 	} catch (error) {
+		console.error(`action object: ${action}`);
 		console.error(error);
-		return nextTodos;
+		isError = true;
+		saveTodos(todos);
+		return todos;
 	} finally {
-		localStorageManager.updateTodos(nextTodos);
+		if (!isError) {
+			saveTodos(nextTodos);
+		}
 	}
 }
 

@@ -1,16 +1,16 @@
 import styles from "./app.module.css";
-import TodoList from "./components/todoList/TodoList";
-
-window.onstorage = (event) => {
-	// can also use window.addEventListener('storage', event => {
-	console.log(event);
-};
+import { TodoList } from "./components/TodoList/TodoList.tsx";
+import { retrieveTodos } from "./lib/local-storage.ts";
 
 function App() {
+	let savedTodos = retrieveTodos();
+	if (!Array.isArray(savedTodos)) {
+		savedTodos = [];
+	}
 	return (
 		<>
 			<div className={styles.todoListWrapper}>
-				<TodoList />
+				<TodoList initialTodos={savedTodos} />
 			</div>
 		</>
 	);

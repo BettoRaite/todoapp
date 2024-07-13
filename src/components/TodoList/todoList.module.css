@@ -1,0 +1,9 @@
+.todosWrapper {
+  box-sizing: border-box;
+  padding: 10px;
+  width: 300px;
+  height: 400px;
+  background-color: rgb(241, 241, 241);
+  border-radius: 10px;
+  overflow-y: scroll;
+}
