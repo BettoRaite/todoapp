@@ -5,3 +5,9 @@
   border-radius: 10px;
   height: 400px;
 }
+.checkbox {
+  position: absolute;
+  padding: 10px;
+  top: 0;
+  left: 0;
+}

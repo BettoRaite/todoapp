@@ -7,3 +7,8 @@
   border-radius: 10px;
   overflow-y: scroll;
 }
+.inlineTodosWrapper {
+  width: 400px;
+  display: flex;
+  flex-flow: column;
+}

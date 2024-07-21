@@ -1,21 +1,23 @@
 import styles from "./todo.module.css";
 import { TodoItem } from "../../lib/types.ts";
 import { useState, ChangeEvent } from "react";
+import deleteButtonIcon from "./deletebutton.svg";
+import { useTodosHandler } from "../TodosProvider/TodosProvider.tsx";
 
-interface TodoProps {
-	onDelete: (id: string) => void;
-	onChange: (todo: TodoItem) => void;
+type TodoProps = {
 	todo: TodoItem;
-}
-export function Todo({ onChange, onDelete, todo }: TodoProps) {
+};
+
+export function Todo({ todo }: TodoProps) {
 	const [isEditing, setIsEditing] = useState(false);
 	const [content, setContent] = useState("");
+	const todosHandler = useTodosHandler();
 
 	function handleChange(e: ChangeEvent<HTMLInputElement>) {
 		setContent(e.target.value);
 	}
 	function handleSave() {
-		onChange({
+		todosHandler.change({
 			...todo,
 			content,
 		});
@@ -26,17 +28,21 @@ export function Todo({ onChange, onDelete, todo }: TodoProps) {
 		setIsEditing(!isEditing);
 	}
 	function handleDelete() {
-		onDelete(todo.id);
+		todosHandler.delete(todo.id);
 	}
 	function handleDone() {
-		onChange({
+		todosHandler.change({
 			...todo,
 			isDone: !todo.isDone,
 		});
 	}
 	let buttons = <div></div>;
 	if (todo.isDone) {
-		buttons = <button onClick={handleDelete}>delete</button>;
+		buttons = (
+			<button onClick={handleDelete}>
+				<img src={deleteButtonIcon} alt="delete button icon" />
+			</button>
+		);
 	} else {
 		if (isEditing) {
 			buttons = (
@@ -49,7 +55,9 @@ export function Todo({ onChange, onDelete, todo }: TodoProps) {
 			buttons = (
 				<div className={styles.buttons}>
 					<button onClick={handleModeChange}>edit</button>
-					<button onClick={handleDelete}>delete</button>
+					<button onClick={handleDelete}>
+						<img src={deleteButtonIcon} alt="delete button icon" />
+					</button>
 				</div>
 			);
 		}

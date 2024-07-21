@@ -1,10 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color: rgba(0, 0, 0, 0.8);
-  background: #9bc53d;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -33,8 +36,11 @@ body {
   align-items: center;
   width: 100vw;
   min-height: 100vh;
+  background-color: #9bc53d;
 }
-
+.special {
+  background-color: blue;
+}
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -43,7 +49,7 @@ button {
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
-  color: white;
+  color: black;
   cursor: pointer;
   transition: all 0.25s;
 }

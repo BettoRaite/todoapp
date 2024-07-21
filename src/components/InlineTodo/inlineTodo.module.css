@@ -1,0 +1,28 @@
+.inlineTodo {
+  font-size: 1.1rem;
+  border-radius: 1px;
+  height: 2rem;
+  border: none;
+  outline: none;
+}
+.highlighted {
+  background: linear-gradient(
+    90deg,
+    rgba(6, 144, 219, 0.9),
+    rgba(6, 144, 219, 0.6)
+  );
+  color: #ffffff;
+}
+.highlightedDone {
+  background-color: #a5be00;
+  color: #ffffff;
+}
+.header {
+  background-color: transparent;
+  font-size: 1.2rem;
+  background: linear-gradient();
+  color: gray;
+  border-radius: 5px;
+  width: 50%;
+  font-weight: bold;
+}
