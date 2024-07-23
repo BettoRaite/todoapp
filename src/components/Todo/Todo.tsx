@@ -1,6 +1,6 @@
 import styles from "./todo.module.css";
 import { TodoItem } from "../../lib/types.ts";
-import { useState, ChangeEvent } from "react";
+import { useState } from "react";
 import deleteIcon from "/icons/delete.svg";
 import editIcon from "/icons/edit.svg";
 import checkIcon from "/icons/save.svg";

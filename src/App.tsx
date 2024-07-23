@@ -1,5 +1,4 @@
 import homeIcon from "/icons/home.svg";
-import styles from "./app.module.css";
 import { TodoList } from "./components/TodoList/TodoList.tsx";
 import { InlineTodoList } from "./components/InlineTodoList/InlineTodoList.tsx";
 import { retrieveTodos } from "./lib/local-storage.ts";
@@ -7,7 +6,7 @@ import { useState } from "react";
 import { TodosProvider } from "./components/TodosProvider/TodosProvider.tsx";
 
 export default function TodoApp() {
-	const [showSettingsModal, setShowSettingsModal] = useState(false);
+	// const [showSettingsModal, setShowSettingsModal] = useState(false);
 	const [isInlineMode, setIsInlineMode] = useState(false);
 	let savedTodos = retrieveTodos();
 

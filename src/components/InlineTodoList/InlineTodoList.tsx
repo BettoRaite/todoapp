@@ -5,7 +5,7 @@ import { InlineTodoProps } from "../InlineTodo/InlineTodo.tsx";
 
 export function InlineTodoList() {
 	const [usedTodoIds, setUsedTodoIds] = useState<Record<string, number>>({});
-	const [inlineTodosTotal, setInlineTodosTotal] = useState(10);
+	const [inlineTodosTotal, _] = useState(10);
 
 	function handleUseTodoId(todoId: string, inlineTodoIndex: number) {
 		setUsedTodoIds({
