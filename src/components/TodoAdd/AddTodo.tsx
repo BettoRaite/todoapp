@@ -1,3 +1,4 @@
+import styles from "./addTodo.module.css";
 import { useState, ChangeEvent } from "react";
 import { useTodosHandler } from "../TodosProvider/TodosProvider.tsx";
 
@@ -8,13 +9,16 @@ export function TodoAdd() {
 		setContent(e.target.value);
 	}
 	function handleAdd() {
-		todosHandler.add(content);
-		setContent("");
+		if (content !== "") {
+			todosHandler.add(content);
+			setContent("");
+		}
 	}
 	return (
-		<section className="border rounded mb-5">
+		<section className="flex justify-between border rounded mb-5 w-full">
 			<input
-				className="outline-none p-2"
+				required={true}
+				className="outline-none p-2 w-full"
 				value={content}
 				type="text"
 				placeholder="What needs to be done?"
@@ -22,7 +26,7 @@ export function TodoAdd() {
 			/>
 			<button
 				type="button"
-				className="rounded-r-none bg-slate-200 font-medium"
+				className={`rounded-r-none bg-amber-300 text-gray-500 font-bold ${styles.addButton}`}
 				onClick={handleAdd}
 			>
 				Add

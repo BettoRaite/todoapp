@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { TodoItem } from "./types.ts";
 import { saveTodos } from "./local-storage.ts";
+
 export interface TodoAction extends Partial<TodoItem> {
 	type:
 		| "add_todo"
@@ -14,7 +15,7 @@ export interface TodoAction extends Partial<TodoItem> {
 export function todosReducer(todos: TodoItem[], action: TodoAction) {
 	let nextTodos: TodoItem[] = [];
 	let isError = false;
-	// console.log(action, todos);
+	console.log(action, todos);
 	console.log(action, todos);
 	try {
 		switch (action.type) {
@@ -115,7 +116,7 @@ export function todosReducer(todos: TodoItem[], action: TodoAction) {
 		return todos;
 	} finally {
 		if (!isError) {
-			// saveTodos(nextTodos);
+			saveTodos(nextTodos);
 		}
 	}
 }

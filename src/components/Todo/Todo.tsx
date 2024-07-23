@@ -1,8 +1,12 @@
 import styles from "./todo.module.css";
 import { TodoItem } from "../../lib/types.ts";
 import { useState, ChangeEvent } from "react";
-import deleteButtonIcon from "./deletebutton.svg";
+import deleteIcon from "/icons/delete.svg";
+import editIcon from "/icons/edit.svg";
+import checkIcon from "/icons/save.svg";
+import doneIcon from "/icons/done.svg";
 import { useTodosHandler } from "../TodosProvider/TodosProvider.tsx";
+import { TodoOverlay } from "../TodoOverlay/TodoOverlay.tsx";
 
 type TodoProps = {
 	todo: TodoItem;
@@ -10,21 +14,16 @@ type TodoProps = {
 
 export function Todo({ todo }: TodoProps) {
 	const [isEditing, setIsEditing] = useState(false);
-	const [content, setContent] = useState("");
 	const todosHandler = useTodosHandler();
 
-	function handleChange(e: ChangeEvent<HTMLInputElement>) {
-		setContent(e.target.value);
-	}
-	function handleSave() {
+	function handleSave(content: string) {
 		todosHandler.change({
 			...todo,
 			content,
 		});
-		setIsEditing(false);
+		handleModeChange();
 	}
 	function handleModeChange() {
-		setContent(todo.content);
 		setIsEditing(!isEditing);
 	}
 	function handleDelete() {
@@ -36,42 +35,41 @@ export function Todo({ todo }: TodoProps) {
 			isDone: !todo.isDone,
 		});
 	}
-	let buttons = <div></div>;
-	if (todo.isDone) {
-		buttons = (
-			<button onClick={handleDelete}>
-				<img src={deleteButtonIcon} alt="delete button icon" />
-			</button>
-		);
-	} else {
-		if (isEditing) {
-			buttons = (
-				<div className={styles.buttons}>
-					<button onClick={handleSave}>save</button>
-					<button onClick={handleModeChange}>discard</button>
-				</div>
-			);
-		} else {
-			buttons = (
-				<div className={styles.buttons}>
-					<button onClick={handleModeChange}>edit</button>
-					<button onClick={handleDelete}>
-						<img src={deleteButtonIcon} alt="delete button icon" />
-					</button>
-				</div>
-			);
-		}
-	}
 
 	return (
-		<div className={styles.layout}>
-			<input type="checkbox" onChange={handleDone} checked={todo.isDone} />
-			{isEditing ? (
-				<input value={content} onChange={handleChange} />
-			) : (
-				<p>{todo.content}</p>
+		<div className="flex items-center gap-3">
+			<div className="overflow-hidden relative gap-5 p-2 pl-1 pr-10 rounded-md bg-white h-56 w-full">
+				<button
+					onClick={handleDone}
+					className={`absolute p-2 ${todo.isDone && "bg-slate-400"} border border-gray-400 -top-2 -left-1 h-7 rounded-1/2 hover:bg-gray-400 box-content`}
+				>
+					<img
+						src={todo.isDone ? doneIcon : checkIcon}
+						alt="change todo to done"
+					/>
+				</button>
+				{/* <input type="checkbox" onChange={handleDone} checked={todo.isDone} /> */}
+				<div className="absolute top-12	 w-full px-5 flex-wrap break-words ">
+					<p className="font-bold text-gray-500 first-letter:uppercase">
+						{todo.content.slice(0, 50)}
+					</p>
+				</div>
+			</div>
+			<div className="self-start flex flex-col gap-2 rounded w-1/5 sm:w-2/12">
+				<button className={styles.button} onClick={handleModeChange}>
+					<img src={editIcon} alt="edit todo" />
+				</button>
+				<button className={styles.button} onClick={handleDelete}>
+					<img src={deleteIcon} alt="delete todo" />
+				</button>
+			</div>
+			{isEditing && (
+				<TodoOverlay
+					initialContent={todo.content}
+					onClose={handleModeChange}
+					onSaveChanges={handleSave}
+				/>
 			)}
-			{buttons}
 		</div>
 	);
 }

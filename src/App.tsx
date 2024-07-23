@@ -1,3 +1,4 @@
+import homeIcon from "/icons/home.svg";
 import styles from "./app.module.css";
 import { TodoList } from "./components/TodoList/TodoList.tsx";
 import { InlineTodoList } from "./components/InlineTodoList/InlineTodoList.tsx";
@@ -6,26 +7,29 @@ import { useState } from "react";
 import { TodosProvider } from "./components/TodosProvider/TodosProvider.tsx";
 
 export default function TodoApp() {
-	const [isInlineMode, setIsInlineMode] = useState(true);
+	const [showSettingsModal, setShowSettingsModal] = useState(false);
+	const [isInlineMode, setIsInlineMode] = useState(false);
 	let savedTodos = retrieveTodos();
 
 	if (!Array.isArray(savedTodos)) {
 		savedTodos = [];
 	}
 
+	let content = <TodoList />;
+	if (isInlineMode) {
+		content = <InlineTodoList />;
+	}
+
 	return (
 		<>
-			<TodosProvider initialTodos={savedTodos}>
-				{!isInlineMode && <TodoList />}
-				{isInlineMode && <InlineTodoList />}
-			</TodosProvider>
+			<TodosProvider initialTodos={savedTodos}>{content}</TodosProvider>
 
-			<input
-				className={styles.checkbox}
-				type="checkbox"
-				checked={isInlineMode}
-				onChange={() => setIsInlineMode(!isInlineMode)}
-			/>
+			<button
+				onClick={() => setIsInlineMode(!isInlineMode)}
+				className="fixed right-5 top-5 p-3 rounded-full"
+			>
+				<img src={homeIcon} alt="toggle settings modal" />
+			</button>
 		</>
 	);
 }

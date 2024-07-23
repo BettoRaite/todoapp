@@ -41,5 +41,9 @@ export function InlineTodoList() {
 
 		inlineTodos.push(<InlineTodo key={inlineTodoIndex} {...props} />);
 	}
-	return <div className={`h-${96 / 2} w-32 rounded `}>{inlineTodos}</div>;
+	return (
+		<section className="p-4	 rounded bg-white">
+			<div className={`h-${96 / 2} rounded flex flex-col`}>{inlineTodos}</div>
+		</section>
+	);
 }

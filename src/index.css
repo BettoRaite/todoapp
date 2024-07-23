@@ -30,16 +30,13 @@ a:hover {
 }
 
 body {
-  margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
+  margin: 0;
+  padding: 0;
   min-height: 100vh;
   background-color: #9bc53d;
-}
-.special {
-  background-color: blue;
 }
 button {
   border-radius: 8px;
@@ -55,7 +52,7 @@ button {
 }
 button:hover {
   border-color: #646cff;
-  background-color: #797979;
+  background-color: #e8e8e8;
 }
 button:focus,
 button:focus-visible {
