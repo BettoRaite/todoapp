@@ -18,56 +18,37 @@
   /* Todo */
   --buttons-gap: 0.2rem;
   --todo-content-input-margin-sides: 1rem;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+  /* Colors */
+  --color-aero: hsla(198, 78%, 64%, 1);
+  --color-maize: hsla(53, 98%, 65%, 1);
+  --color-yellow-green: hsla(79, 54%, 51%, 1);
+  --color-cinnabar: #e55a34;
+  --color-pumpkin: #fa761e;
+  --color-light-gray: hsla(0, 0%, 80%, 1);
+  --color-charcoal-gray: hsla(0, 0%, 40%, 1);
+  --color-cool-gray: hsla(210, 10%, 60%, 1);
+  --color-warm-gray: hsla(30, 10%, 60%, 1);
+  --color-silver: hsla(0, 0%, 75%, 1);
+  --color-cream: hsla(60, 100%, 90%, 1);
+  --color-white: hsla(100, 100%, 100%, 1);
+  --brick-red: #bf4040;
 }
 
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   margin: 0;
   padding: 0;
-  min-height: 100vh;
   background-color: #9bc53d;
 }
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  color: black;
-  cursor: pointer;
-  transition: all 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-  background-color: #f4f4f4;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+:is(.hoverGreen, .hoverCinnabar) img {
+  transition: 0.3s;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.hoverGreen:hover img {
+  filter: brightness(0) saturate(100%) invert(71%) sepia(54%) saturate(538%)
+    hue-rotate(33deg) brightness(95%) contrast(82%);
+}
+
+.hoverCinnabar:hover img {
+  filter: brightness(0) saturate(100%) invert(12%) sepia(56%) saturate(6829%)
+    hue-rotate(356deg) brightness(104%) contrast(117%);
 }

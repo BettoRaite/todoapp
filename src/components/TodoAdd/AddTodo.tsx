@@ -1,13 +1,14 @@
-import styles from "./addTodo.module.css";
 import { useState, ChangeEvent } from "react";
 import { useTodosHandler } from "../TodosProvider/TodosProvider.tsx";
 
 export function TodoAdd() {
 	const todosHandler = useTodosHandler();
 	const [content, setContent] = useState("");
-	function handleChange(e: ChangeEvent<HTMLInputElement>) {
+
+	function handleChange(e: ChangeEvent<HTMLTextAreaElement>) {
 		setContent(e.target.value);
 	}
+
 	function handleAdd() {
 		if (content !== "") {
 			todosHandler.add(content);
@@ -15,18 +16,17 @@ export function TodoAdd() {
 		}
 	}
 	return (
-		<section className="flex justify-between border rounded mb-5 w-full">
-			<input
+		<section className="flex flex-col gap-4 mb-4 sm:flex-row">
+			<textarea
 				required={true}
-				className="outline-none p-2 w-full"
+				className="border-2 border-yellow-green rounded-md p-4 resize-none h-60 outline-none sm:flex-1 focus:border-cool-gray focus:border-2 transition-all delay-50"
 				value={content}
-				type="text"
 				placeholder="What needs to be done?"
 				onChange={handleChange}
 			/>
 			<button
 				type="button"
-				className={`rounded-r-none bg-amber-300 text-gray-500 font-bold ${styles.addButton}`}
+				className={`sm:w-1/5 bg-maize sm:self-start sm:h-20 transition-all delay-100 text-yellow-green hover:text-cool-gray active:bg-aero font-bold rounded-md pt-2 pb-2`}
 				onClick={handleAdd}
 			>
 				Add

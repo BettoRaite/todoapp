@@ -36,11 +36,10 @@ export function TodoList() {
 	}
 	const sortOptions: sort[] = ["all", "done", "undone"];
 	return (
-		<div className="overflow-hidden bg-white  m-auto sm:p-10 p-6 rounded-md">
+		<div className="w-full p-4 m-auto sm:p-10  md:w-2/3 lg:w-1/2">
 			<>
 				<TodoAdd />
-
-				<ul className="grid grid-cols-3 gap-2 text-center m-2 first-letter:*:capitalize">
+				<ul className="grid grid-cols-3 gap-2 text-center my-6 first-letter:*:">
 					{sortOptions.map((sortType, i) => {
 						return (
 							<li
@@ -53,9 +52,7 @@ export function TodoList() {
 						);
 					})}
 				</ul>
-				<div className={`w-full sm:w-96 ${styles.todosList}`}>
-					{todosContent}
-				</div>
+				<div className={`w-full`}>{todosContent}</div>
 			</>
 		</div>
 	);

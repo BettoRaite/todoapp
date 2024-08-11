@@ -25,7 +25,7 @@ export default function TodoApp() {
 
 			<button
 				onClick={() => setIsInlineMode(!isInlineMode)}
-				className="fixed right-5 top-5 p-3 rounded-full"
+				className="fixed right-5 top-5 p-3 rounded-full hidden"
 			>
 				<img src={homeIcon} alt="toggle settings modal" />
 			</button>

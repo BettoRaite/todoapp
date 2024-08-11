@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import styles from "./todo.module.css";
 import { TodoItem } from "../../lib/types.ts";
 import { useState } from "react";
@@ -37,11 +38,13 @@ export function Todo({ todo }: TodoProps) {
 	}
 
 	return (
-		<div className="flex items-center gap-3">
-			<div className="overflow-hidden relative gap-5 p-2 pl-1 pr-10 rounded-md bg-white h-56 w-full">
+		<div className="flex items-center gap-3 mb-4">
+			<div className="overflow-hidden relative gap-5 p-2 pl-1 pr-10 rounded-md bg-white h-80 w-full">
 				<button
 					onClick={handleDone}
-					className={`absolute p-2 ${todo.isDone && "bg-slate-400"} border border-gray-400 -top-2 -left-1 h-7 rounded-1/2 hover:bg-gray-400 box-content`}
+					className={clsx("bg-maize p-4 rounded-lg float-start  mr-4 transition-all", {
+						"h-1/2 bg-pumpkin shadow-md shadow-cool-gray": todo.isDone
+					})}
 				>
 					<img
 						src={todo.isDone ? doneIcon : checkIcon}
@@ -49,12 +52,13 @@ export function Todo({ todo }: TodoProps) {
 					/>
 				</button>
 				{/* <input type="checkbox" onChange={handleDone} checked={todo.isDone} /> */}
-				<div className="absolute top-12	 w-full px-5 flex-wrap break-words ">
+				<div className="top-12  w-full px-5 flex-wrap break-words ">
 					<p className="font-bold text-gray-500 first-letter:uppercase">
 						{todo.content.slice(0, 50)}
 					</p>
 				</div>
 			</div>
+
 			<div className="self-start flex flex-col gap-2 rounded w-1/5 sm:w-2/12">
 				<button className={styles.button} onClick={handleModeChange}>
 					<img src={editIcon} alt="edit todo" />
@@ -63,13 +67,13 @@ export function Todo({ todo }: TodoProps) {
 					<img src={deleteIcon} alt="delete todo" />
 				</button>
 			</div>
-			{isEditing && (
-				<TodoOverlay
-					initialContent={todo.content}
-					onClose={handleModeChange}
-					onSaveChanges={handleSave}
-				/>
-			)}
+
+			<TodoOverlay
+				initialContent={todo.content}
+				onClose={handleModeChange}
+				onSaveChanges={handleSave}
+				isHidden={!isEditing}
+			/>
 		</div>
 	);
 }

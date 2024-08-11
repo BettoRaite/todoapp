@@ -5,7 +5,8 @@ import { InlineTodoProps } from "../InlineTodo/InlineTodo.tsx";
 
 export function InlineTodoList() {
 	const [usedTodoIds, setUsedTodoIds] = useState<Record<string, number>>({});
-	const [inlineTodosTotal, _] = useState(10);
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const [inlineTodosTotal, _setInlineTodosTotal] = useState(10);
 
 	function handleUseTodoId(todoId: string, inlineTodoIndex: number) {
 		setUsedTodoIds({
@@ -15,6 +16,7 @@ export function InlineTodoList() {
 	}
 
 	const todos = useTodos();
+	const inlineTodosContainerRef = useRef<HTMLElement | null>(null);
 	const inputRefs = useRef<HTMLInputElement[]>([]);
 
 	const inlineTodos: JSX.Element[] = [];
@@ -36,6 +38,7 @@ export function InlineTodoList() {
 			props.todo = todo;
 		}
 		if (usedTodoIds[todo?.id] === inlineTodoIndex) {
+			
 			props.todo;
 		}
 
@@ -43,7 +46,15 @@ export function InlineTodoList() {
 	}
 	return (
 		<section className="p-4	 rounded bg-white">
-			<div className={`h-${96 / 2} rounded flex flex-col`}>{inlineTodos}</div>
+			<div
+				ref={(ref) => {
+					inlineTodosContainerRef.current = ref;
+					console.log(ref?.style.height);
+				}}
+				className={`h-${96 / 2} rounded flex flex-col`}
+			>
+				{inlineTodos}
+			</div>
 		</section>
 	);
 }
