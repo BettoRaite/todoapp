@@ -4,7 +4,9 @@
   align-items: center;
 }
 .button {
-  width: 3rem;
+  --size: 2.7rem;
+  height: var(--size);
+  width: var(--size);
   border-radius: 0.4rem;
   display: flex;
   justify-content: center;

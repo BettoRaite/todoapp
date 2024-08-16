@@ -2,14 +2,20 @@
 export default {
 	content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
 	theme: {
-		extend: {},
+		extend: {
+			gridTemplateRows: {
+				"max-1fr": "max-content 1fr",
+
+				layout: "200px minmax(900px, 1fr) 100px",
+			},
+		},
 		colors: {
 			aero: "hsla(198, 78%, 64%, 1)",
 			maize: "hsla(53, 98%, 65%, 1)",
 			"yellow-green": "hsla(79, 54%, 51%, 1)",
 			cinnabar: "hsla(13, 77%, 55%, 1)",
 			pumpkin: "hsla(24, 96%, 55%, 1)",
-			"light-gray": "hsla(0, 0%, 80%, 1)",
+			"light-gray": "#4A4A4A",
 			"charcoal-gray": "hsla(0, 0%, 40%, 1)",
 			"cool-gray": "hsla(210, 10%, 60%, 1)",
 			"warm-gray": "hsla(30, 10%, 60%, 1)",
