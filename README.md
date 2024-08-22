@@ -26,11 +26,11 @@ To run this project locally, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone git@github.com:BettoRaite/dozzz.git
+   git clone git@github.com:BettoRaite/todoapp.git
    ```
 2. Navigate to the project directory:
    ```bash
-   cd dozzz
+   cd todoapp
    ```
 3. Install the dependencies:
    ```bash
