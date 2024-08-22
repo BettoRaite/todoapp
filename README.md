@@ -26,20 +26,21 @@ To run this project locally, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/todo-app.git
+   git clone git@github.com:BettoRaite/dozzz.git
    ```
 2. Navigate to the project directory:
    ```bash
-   cd todo-app
+   cd dozzz
    ```
 3. Install the dependencies:
    ```bash
-   npm install
+   pnpm install
    ```
 4. Start the development server:
    ```bash
-   npm start
+   pnpm run dev
    ```
+   
    
 ## License
 
